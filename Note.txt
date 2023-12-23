@@ -1,0 +1,4 @@
+
+1. Chạm vào bề mặt thiết bị bằng đầu ngón tay trong thời gian ngắn sau đỏ thả ngón tay ra ngay
+2. systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
