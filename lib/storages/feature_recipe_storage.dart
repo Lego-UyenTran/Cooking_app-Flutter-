@@ -5,16 +5,13 @@ import 'dart:io';
 
 class FeatureRecipeStorage {
   Future<String> get _localPath async {
-    final directory =
-        await getApplicationDocumentsDirectory(); //lay duong dan hien tai cua ung dung(web/ dthoai)
-
+    final directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
 
-  //lay path hien tai + ten file json
   Future<File> get _localFile async {
-    //get local file
     final path = await _localPath;
+    // print("path: " + path.toString());
     return File('$path/Recipe.json');
   }
 
@@ -31,15 +28,13 @@ class FeatureRecipeStorage {
       List<Recipe> list = [];
       final file = await _localFile;
       // Read the file
-      final str = await file.readAsString(); //doc file thanh cuoi string
+      final str = await file.readAsString();
       if (str.isNotEmpty) {
-        var jsonObject =
-            jsonDecode(str); //decode: giai ma String thanh jsonbject
-        var newListObject =
-            jsonObject as List; //jsonObject -> chuyen thanh list
+        var jsonObject = jsonDecode(str);
+        var newListObject = jsonObject as List;
         list = newListObject.map((e) {
-          return Recipe.fromJson(e); //chuyen map(e) thanh user(user tu map)
-        }).toList(); //chuyen ve thanh list
+          return Recipe.fromJson(e);
+        }).toList();
       }
       return list;
     } catch (e) {

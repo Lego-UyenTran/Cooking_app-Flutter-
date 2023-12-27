@@ -13,17 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:cooking_app/screens/register_page.dart';
 import 'package:provider/provider.dart';
 
-/*
-Mau: 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-*/
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -111,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                                     BorderRadius.all(Radius.circular(6))),
                             child: TextField(
                               maxLength: 255,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[a-zA-Z_0-9@. ]'))
-                              ],
+                              // inputFormatters: <TextInputFormatter>[
+                              //   FilteringTextInputFormatter.allow(
+                              //       RegExp(r'[a-zA-Z_0-9@. ]'))
+                              // ],
                               decoration: InputDecoration(
                                 counterText: '',
                                 border: OutlineInputBorder(
@@ -199,7 +188,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         var user = User(username: username, password: password);
                         int num = await data.CheckForLogin(user);
-
                         if (num == 1) {
                           Timer(Duration(seconds: 1), () {
                             Navigator.push(
@@ -220,7 +208,6 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         "Login",
-                        // style: TextStyle(color: AppColor.secondary),
                       ),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF0B5551),

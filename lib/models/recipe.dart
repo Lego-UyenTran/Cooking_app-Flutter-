@@ -5,8 +5,11 @@ class Recipe {
   String? calories;
   String? time;
   String? description;
+  // bool? bookmark;
+  // String? userId;
 
-  List<Ingridient> ingridients = [];
+  List<ListBookmark> listBookmark;
+  List<Ingridient> ingridients;
   List<TutorialStep> tutorial;
   List<Review> reviews;
 
@@ -17,6 +20,8 @@ class Recipe {
       this.calories,
       this.time,
       this.description,
+      // this.bookmark,
+      required this.listBookmark,
       required this.reviews,
       required this.tutorial,
       required this.ingridients});
@@ -29,6 +34,11 @@ class Recipe {
       calories: json["calories"],
       time: json["time"],
       description: json["description"],
+      // bookmark: json['bookmark'],
+      // userId: json['userId'],
+      listBookmark: List.from(json["listBookmark"])
+          .map((e) => ListBookmark.fromJson(e))
+          .toList(),
       tutorial: List.from(json["tutorial"])
           .map((e) => TutorialStep.fromJson(e))
           .toList(),
@@ -48,6 +58,9 @@ class Recipe {
     data['calories'] = calories;
     data['time'] = time;
     data['description'] = description;
+    // data['bookmark'] = bookmark;
+    // data['userId'] = userId;
+    data['listBookmark'] = listBookmark.map((e) => e.toMap()).toList();
     data['reviews'] = reviews.map((e) => e.toMap()).toList();
     data['tutorial'] = tutorial.map((e) => e.toMap()).toList();
     data['ingridients'] = ingridients.map((e) => e.toMap()).toList();
@@ -88,23 +101,26 @@ class Review {
   String? date;
   String? type;
   String? foodId;
-  Review(
-      {this.id,
-      this.username,
-      this.userId,
-      this.review,
-      this.date,
-      this.type,
-      this.foodId});
+
+  Review({
+    this.id,
+    this.username,
+    this.userId,
+    this.review,
+    this.date,
+    this.type,
+    this.foodId,
+  });
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
-      id: json["id"],
-      username: json['username'],
-      userId: json['userId'],
-      review: json['review'],
-      date: json['date'],
-      type: json['type'],
-      foodId: json['foodId']);
+        id: json["id"],
+        username: json['username'],
+        userId: json['userId'],
+        review: json['review'],
+        date: json['date'],
+        type: json['type'],
+        foodId: json['foodId'],
+      );
 
   Map<String, dynamic> toMap() {
     return {
@@ -114,20 +130,21 @@ class Review {
       'review': review,
       'date': date,
       'type': type,
-      'foodId': foodId
+      'foodId': foodId,
     };
   }
 
   static List<Review> toList(List<Map<String, Object>> json) {
     return List.from(json)
         .map((e) => Review(
-            id: e['id'],
-            username: e['username'],
-            userId: e['userId'],
-            review: e['review'],
-            date: e['date'],
-            type: e['type'],
-            foodId: e['foodId']))
+              id: e['id'],
+              username: e['username'],
+              userId: e['userId'],
+              review: e['review'],
+              date: e['date'],
+              type: e['type'],
+              foodId: e['foodId'],
+            ))
         .toList();
   }
 }
@@ -153,6 +170,27 @@ class Ingridient {
   static List<Ingridient> toList(List<Map<String, Object>> json) {
     return List.from(json)
         .map((e) => Ingridient(name: e['name'], size: e['size']))
+        .toList();
+  }
+}
+
+class ListBookmark {
+  String? userId;
+  bool? bookmark;
+
+  ListBookmark({this.userId, this.bookmark});
+  factory ListBookmark.fromJson(Map<String, dynamic> json) => ListBookmark(
+        userId: json['userId'],
+        bookmark: json['bookmark'],
+      );
+
+  Map<String, dynamic> toMap() {
+    return {'userId': userId, 'bookmark': bookmark};
+  }
+
+  static List<ListBookmark> toList(List<Map<String, Object>> json) {
+    return List.from(json)
+        .map((e) => ListBookmark(userId: e['userId'], bookmark: e['bookmark']))
         .toList();
   }
 }

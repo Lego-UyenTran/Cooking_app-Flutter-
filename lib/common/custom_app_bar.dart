@@ -1,4 +1,5 @@
 import 'package:cooking_app/icons/fire_icon.dart';
+import 'package:cooking_app/screens/bookmark_page.dart';
 import 'package:cooking_app/screens/login_page.dart';
 import 'package:cooking_app/screens/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -85,26 +86,37 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         Visibility(
           visible: showProfilePhoto,
           child: Container(
-            margin: EdgeInsets.only(right: 16),
             alignment: Alignment.center,
-            child: IconButton(
-              //-> profile page
-              // onPressed: profilePhotoOnPressed,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ProfilePage(),
-                ));
-              },
-              icon: Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Colors.white,
-                  image:
-                      DecorationImage(image: profilePhoto, fit: BoxFit.cover),
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BookmarkPage(),
+                      ));
+                    },
+                    icon: const Icon(
+                      FireIcon.bookmark_1,
+                      size: 20,
+                    )),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProfilePage(),
+                    ));
+                  },
+                  icon: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.white,
+                      image: DecorationImage(
+                          image: profilePhoto, fit: BoxFit.cover),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

@@ -1,21 +1,23 @@
 import 'package:cooking_app/models/recipe.dart';
 
 class RecipeHelper {
-  static List<Recipe> featuredRecipe = featuredRecipeRawData
-      .map((data) => Recipe(
-            title: data['title'] as String,
-            photo: data['photo'] as String,
-            calories: data['calories'] as String,
-            time: data['time'] as String,
-            description: data['description'] as String,
-            reviews:
-                Review.toList(data['reviews'] as List<Map<String, Object>>),
-            tutorial: TutorialStep.toList(
-                data['tutorial'] as List<Map<String, Object>>),
-            ingridients: Ingridient.toList(
-                data['ingridients'] as List<Map<String, Object>>),
-          ))
-      .toList();
+  // static List<Recipe> featuredRecipe = featuredRecipeRawData
+  //     .map((data) => Recipe(
+  //           title: data['title'] as String,
+  //           photo: data['photo'] as String,
+  //           calories: data['calories'] as String,
+  //           time: data['time'] as String,
+  //           description: data['description'] as String,
+  //           listUser:
+  //               ListUser.toList(data['listUser'] as List<Map<String, Object>>),
+  //           reviews:
+  //               Review.toList(data['reviews'] as List<Map<String, Object>>),
+  //           tutorial: TutorialStep.toList(
+  //               data['tutorial'] as List<Map<String, Object>>),
+  //           ingridients: Ingridient.toList(
+  //               data['ingridients'] as List<Map<String, Object>>),
+  //         ))
+  //     .toList();
 
   static List<Recipe> recommendationRecipe = recommendationRecipeRawData
       .map((data) => Recipe(
@@ -24,6 +26,8 @@ class RecipeHelper {
             calories: data['calories'] as String,
             time: data['time'] as String,
             description: data['description'] as String,
+            listBookmark: ListBookmark.toList(
+                data['listBookmark'] as List<Map<String, Object>>),
             reviews:
                 Review.toList(data['reviews'] as List<Map<String, Object>>),
             tutorial: TutorialStep.toList(
@@ -40,6 +44,8 @@ class RecipeHelper {
             calories: data['calories'] as String,
             time: data['time'] as String,
             description: data['description'] as String,
+            listBookmark: ListBookmark.toList(
+                data['listBookmark'] as List<Map<String, Object>>),
             reviews:
                 Review.toList(data['reviews'] as List<Map<String, Object>>),
             tutorial: TutorialStep.toList(
@@ -57,6 +63,8 @@ class RecipeHelper {
                 calories: data['calories'] as String,
                 time: data['time'] as String,
                 description: data['description'] as String,
+                listBookmark: ListBookmark.toList(
+                    data['listBookmark'] as List<Map<String, Object>>),
                 reviews:
                     Review.toList(data['reviews'] as List<Map<String, Object>>),
                 tutorial: TutorialStep.toList(
@@ -72,6 +80,8 @@ class RecipeHelper {
     calories: popularRecipeRawData['calories'] as String,
     time: popularRecipeRawData['time'] as String,
     description: popularRecipeRawData['description'] as String,
+    listBookmark: ListBookmark.toList(
+        popularRecipeRawData['listBookmark'] as List<Map<String, Object>>),
     reviews: Review.toList(
         popularRecipeRawData['reviews'] as List<Map<String, Object>>),
     tutorial: TutorialStep.toList(
@@ -87,6 +97,8 @@ class RecipeHelper {
             calories: data['calories'] as String,
             time: data['time'] as String,
             description: data['description'] as String,
+            listBookmark: ListBookmark.toList(
+                data['listBookmark'] as List<Map<String, Object>>),
             reviews:
                 Review.toList(data['reviews'] as List<Map<String, Object>>),
             tutorial: TutorialStep.toList(
@@ -103,6 +115,8 @@ class RecipeHelper {
             calories: data['calories'] as String,
             time: data['time'] as String,
             description: data['description'] as String,
+            listBookmark: ListBookmark.toList(
+                data['listBookmark'] as List<Map<String, Object>>),
             reviews:
                 Review.toList(data['reviews'] as List<Map<String, Object>>),
             tutorial: TutorialStep.toList(

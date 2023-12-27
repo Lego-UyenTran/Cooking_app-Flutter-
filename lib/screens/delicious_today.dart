@@ -8,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DeliciousTodayPage extends StatelessWidget {
-  final Recipe popularRecipe = RecipeHelper.popularRecipe;
-  final List<Recipe> featuredRecipe = RecipeHelper.featuredRecipe;
-
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipeProvider>(builder: (context, data2, _) {

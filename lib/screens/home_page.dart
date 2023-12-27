@@ -1,24 +1,19 @@
 import 'package:cooking_app/common/card.dart';
 import 'package:cooking_app/common/custom_app_bar.dart';
+import 'package:cooking_app/common/recipe_tile.dart';
 import 'package:cooking_app/common/recommendation_recipe_card.dart';
 import 'package:cooking_app/common/search_bar.dart';
 import 'package:cooking_app/models/recipe.dart';
 import 'package:cooking_app/models/recipe_helper.dart';
-import 'package:cooking_app/common/recipe_tile.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
 import 'package:cooking_app/screens/delicious_today.dart';
 import 'package:cooking_app/screens/newly_posted_page.dart';
-import 'package:cooking_app/screens/profile_page.dart';
 import 'package:cooking_app/screens/search_page.dart';
 import 'package:cooking_app/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final List<Recipe> featuredRecipe = RecipeHelper.featuredRecipe;
-  final List<Recipe> recommendationRecipe = RecipeHelper.recommendationRecipe;
-  final List<Recipe> newlyPostedRecipe = RecipeHelper.newlyPostedRecipe;
-
   Widget build(BuildContext context) {
     return Consumer<RecipeProvider>(builder: (context, data2, _) {
       return Scaffold(
@@ -145,7 +140,6 @@ class HomePage extends StatelessWidget {
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      // itemCount: recommendationRecipe.length,
                       itemCount: data2.listReview.length,
                       separatorBuilder: (context, index) {
                         return SizedBox(width: 16);

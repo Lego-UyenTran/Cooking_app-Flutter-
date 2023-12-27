@@ -1,5 +1,7 @@
+import 'package:cooking_app/common/recipe_detail_page.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
 import 'package:cooking_app/providers/user_provider.dart';
+import 'package:cooking_app/utils/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:cooking_app/screens/welcom_page.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // theme: ThemeData(primarySwatch: Colors.amber),
         // theme: ThemeData(fontFamily: Config.FontNunito),
+        // routes: {RouteName.details: (context) => const RecipeDetailPage()
+        // },
       ),
     );
   }

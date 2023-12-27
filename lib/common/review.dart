@@ -1,7 +1,6 @@
 import 'package:cooking_app/common/varianble.dart';
 import 'package:cooking_app/models/recipe.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
-import 'package:cooking_app/providers/user_provider.dart';
 import 'package:cooking_app/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,10 +26,14 @@ class _ReviewTileState extends State<ReviewTile> {
   void initState() {
     super.initState();
     loadDataFromPreferences();
+
+    var recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    recipeProvider.init();
   }
 
   @override
   Widget build(BuildContext context) {
+    var recipeProvider = Provider.of<RecipeProvider>(context, listen: true);
     _controller.text = widget.data.review as String;
     String temp = "";
     if (widget.data.userId == null) {
@@ -179,14 +182,38 @@ class _ReviewTileState extends State<ReviewTile> {
                                                                 .format(DateTime
                                                                     .now()));
                                                         //tim toi binh luan da dang voi id
-                                                        int num = await data2
-                                                            .updateReview(
-                                                                review);
-
+                                                        int num =
+                                                            await recipeProvider
+                                                                .updateReview(
+                                                                    review);
+                                                        recipeProvider.init;
+                                                        if (num == 1) {
+                                                          var snackBar = SnackBar(
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              content: Text(
+                                                                  "Chỉnh sửa bình luận thành công!"));
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
+                                                        } else {
+                                                          var snackBar = SnackBar(
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              content: Text(
+                                                                  "Đã xảy ra lỗi! Vui lòng thử lại!"));
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
+                                                        }
                                                         Navigator.of(context)
                                                             .pop();
-
-                                                        setState(() {});
                                                       },
                                                       child: Text('Chỉnh sửa'),
                                                       style: ElevatedButton
@@ -268,12 +295,38 @@ class _ReviewTileState extends State<ReviewTile> {
                                                                     'dd-MM-yyyy – kk:mm')
                                                                 .format(DateTime
                                                                     .now()));
-
-                                                        bool num = await data2
-                                                            .delete(review);
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        setState(() {});
+                                                        bool num =
+                                                            await recipeProvider
+                                                                .delete(review);
+                                                        await recipeProvider
+                                                            .init();
+                                                        if (num == true) {
+                                                          var snackBar = SnackBar(
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              content: Text(
+                                                                  "Đã xoá bình luận!"));
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        } else {
+                                                          var snackBar = SnackBar(
+                                                              content: Text(
+                                                                  "Đã xảy ra lỗi! Vui lòng thử lại!"),
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1));
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
+                                                        }
                                                       },
                                                       child: Text('Đồng ý'),
                                                       style: ElevatedButton

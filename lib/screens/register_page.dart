@@ -146,10 +146,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   BorderRadius.all(Radius.circular(6))),
                           child: TextField(
                             maxLength: 50,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[a-zA-Z_ ]'))
-                            ],
+                            // inputFormatters: <TextInputFormatter>[
+                            //   FilteringTextInputFormatter.allow(
+                            //       RegExp(r'[a-zA-Z_ ]'))
+                            // ],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -195,10 +195,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   BorderRadius.all(Radius.circular(6))),
                           child: TextField(
                             maxLength: 15,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[a-zA-Z_0-9 ]'))
-                            ],
+                            // inputFormatters: <TextInputFormatter>[
+                            //   FilteringTextInputFormatter.allow(
+                            //       RegExp(r'[a-zA-Z_0-9 ]'))
+                            // ],
                             decoration: InputDecoration(
                               counterText: '',
                               border: OutlineInputBorder(
@@ -326,52 +326,50 @@ class _RegisterPageState extends State<RegisterPage> {
                         username: username,
                         password: password,
                       );
-
-                      // print(user.id.runtimeType); //type String
                       bool isValid = EmailValidator.validate(email);
 
-                      // if (email == "" ||
-                      //     fullname == "" ||
-                      //     username == "" ||
-                      //     password == "" ||
-                      //     password2 == "") {
-                      //   var snackBar = SnackBar(
-                      //       content: Text("Vui lòng điền đầy đủ thông tin!"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      // } else if (!isValid) {
-                      //   var snackBar = SnackBar(
-                      //       content:
-                      //           Text("Email không hợp lệ vui lòng nhập lại!"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      // } else if (password != password2) {
-                      //   var snackBar = SnackBar(
-                      //       content: Text(
-                      //           "Mật khẩu nhập lại không trùng khớp với mật khẩu!"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      // } else {
-                      //   int num = await data.CheckRegister(user);
-                      //   if (num == -1) {
-                      //     var snackBar = SnackBar(
-                      //       content: Text("Đã tồn tại username này!"),
-                      //       duration: Duration(seconds: 1),
-                      //     );
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   } else if (num == -2) {
-                      //     var snackBar = SnackBar(
-                      //       content: Text("Email đã dùng để đăng ký trước đó!"),
-                      //       duration: Duration(seconds: 1),
-                      //     );
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   } else {
-                      //     await data.add(user);
-                      //     Timer(Duration(seconds: 1), () {
-                      //       Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) => LoginPage()));
-                      //     });
-                      //   }
-                      // }
+                      if (email == "" ||
+                          fullname == "" ||
+                          username == "" ||
+                          password == "" ||
+                          password2 == "") {
+                        var snackBar = SnackBar(
+                            content: Text("Vui lòng điền đầy đủ thông tin!"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (!isValid) {
+                        var snackBar = SnackBar(
+                            content:
+                                Text("Email không hợp lệ vui lòng nhập lại!"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (password != password2) {
+                        var snackBar = SnackBar(
+                            content: Text(
+                                "Mật khẩu nhập lại không trùng khớp với mật khẩu!"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        int num = await data.CheckRegister(user);
+                        if (num == -1) {
+                          var snackBar = SnackBar(
+                            content: Text("Đã tồn tại username này!"),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else if (num == -2) {
+                          var snackBar = SnackBar(
+                            content: Text("Email đã dùng để đăng ký trước đó!"),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          await data.add(user);
+                          Timer(Duration(seconds: 1), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          });
+                        }
+                      }
                     },
                     child: Text("Register"),
                     style: ElevatedButton.styleFrom(
