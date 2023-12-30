@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:cooking_app/common/recipe_tile.dart';
 import 'package:cooking_app/icons/fire_icon.dart';
 import 'package:cooking_app/models/recipe.dart';
 import 'package:cooking_app/models/recipe_helper.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
-import 'package:cooking_app/screens/search_filter_modal.dart';
 import 'package:cooking_app/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

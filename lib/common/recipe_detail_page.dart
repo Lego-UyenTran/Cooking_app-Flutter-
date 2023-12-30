@@ -213,10 +213,36 @@ class _RecipeDetailPageState extends State<RecipeDetailPage>
                                                 DateFormat('dd-MM-yyyy – kk:mm')
                                                     .format(DateTime.now()));
 
-                                        await recipeProvider.addReview(review);
+                                        if (comment == "") {
+                                          Navigator.of(context).pop();
+                                          return;
+                                        }
+                                        int num = await recipeProvider
+                                            .addReview(review);
                                         await recipeProvider.init();
+
+                                        setState(() {
+                                          comment = "";
+                                        });
+
+                                        if (num == 1) {
+                                          var snackBar = SnackBar(
+                                              duration: Duration(seconds: 1),
+                                              content:
+                                                  Text("Đã thêm bình luận!"));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          // await recipeProvider.init();
+                                        } else {
+                                          var snackBar = SnackBar(
+                                              duration: Duration(seconds: 1),
+                                              content: Text(
+                                                  "Đã xảy ra lỗi! Vui lòng thử lại."));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
+
                                         Navigator.of(context).pop();
-                                        setState(() {});
                                       },
                                       child: Text('Đăng'),
                                       style: ElevatedButton.styleFrom(
@@ -523,7 +549,11 @@ class _RecipeDetailPageState extends State<RecipeDetailPage>
                                 child: Container(
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      //add review
+                                      if (comment.length == 0) {
+                                        Navigator.of(context).pop();
+                                        return;
+                                      }
+                                      //add review; todo
                                       var review = Review(
                                           foodId: widget.data.title,
                                           type: widget.data.type,
@@ -533,8 +563,29 @@ class _RecipeDetailPageState extends State<RecipeDetailPage>
                                           review: comment,
                                           date: DateFormat('dd-MM-yyyy – kk:mm')
                                               .format(DateTime.now()));
-                                      await recipeProvider.addReview(review);
-                                      await recipeProvider.init();
+                                      int num = await recipeProvider
+                                          .addReview(review);
+
+                                      setState(() {
+                                        comment = "";
+                                      });
+                                      if (num == 1) {
+                                        var snackBar = SnackBar(
+                                            duration: Duration(seconds: 1),
+                                            content:
+                                                Text("Đã thêm bình luận!"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        // await recipeProvider.init();
+                                      } else {
+                                        var snackBar = SnackBar(
+                                            duration: Duration(seconds: 1),
+                                            content: Text(
+                                                "Đã xảy ra lỗi! Vui lòng thử lại."));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+
                                       Navigator.of(context).pop();
                                     },
                                     child: Text('Đăng'),

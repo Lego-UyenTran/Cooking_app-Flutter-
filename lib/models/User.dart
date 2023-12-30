@@ -18,6 +18,7 @@ class User {
   String? email;
   String? username;
   String? password;
+  String? image;
   DateTime? date;
 
   User(
@@ -26,6 +27,7 @@ class User {
       this.full_name,
       this.username,
       this.date,
+      this.image,
       this.password});
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -33,7 +35,8 @@ class User {
         "full_name": full_name,
         "username": username,
         "password": password,
-        // "date": date?.toIso8601String(),
+        "image": image,
+        "date": date?.toIso8601String(),
         // "date": date,
       };
 
@@ -44,8 +47,9 @@ class User {
         email: json["email"],
         full_name: json["full_name"],
         username: json["username"],
-        password: json["password"]);
-    // date: DateTime.parse(json['date']));
+        image: json["image"],
+        password: json["password"],
+        date: DateTime.parse(json['date']));
     // date: json['date']);
   }
 }

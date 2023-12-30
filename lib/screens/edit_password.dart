@@ -1,11 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cooking_app/common/varianble.dart';
-import 'package:cooking_app/models/User.dart';
 import 'package:cooking_app/providers/user_provider.dart';
-import 'package:cooking_app/screens/profile_page.dart';
 import 'package:cooking_app/utils/AppColor.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +20,9 @@ class _EditPasswordState extends State<EditPassword> {
   TextEditingController controllerRetryPassword = TextEditingController();
   TextEditingController controllerNewPassword = TextEditingController();
 
+  File _image = File(getUser.image ??
+      'D:\\Documents\\Flutter\\App\\cooking_app\\assets\\images\\thumbnail1.jpg');
+
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, data, _) {
       return Scaffold(
@@ -29,11 +30,12 @@ class _EditPasswordState extends State<EditPassword> {
           backgroundColor: AppColor.primary,
           elevation: 0,
           centerTitle: true,
-          title: Text('My Profile',
+          title: Text(getUser.username.toString(),
               style: TextStyle(
-                  fontFamily: 'inter',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16)),
+                fontFamily: 'inter',
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              )),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () {
@@ -56,19 +58,33 @@ class _EditPasswordState extends State<EditPassword> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      margin: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(100),
-                        // Profile Picture
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/thumbnail1.jpg'),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
+                    _image == null
+                        ? Container(
+                            width: 130,
+                            height: 130,
+                            margin: EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100),
+                              // Profile Picture
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/thumbnail1.jpg'),
+                                  fit: BoxFit.cover),
+                            ),
+                          )
+                        : Container(
+                            width: 130,
+                            height: 130,
+                            margin: EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100),
+                              // Profile Picture
+                              image: DecorationImage(
+                                  image: FileImage(_image!), fit: BoxFit.cover),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -99,8 +115,8 @@ class _EditPasswordState extends State<EditPassword> {
                     ElevatedButton(
                       onPressed: () async {
                         String oldPassword = controllerOldPass.text;
-                        String newPassword = controllerRetryPassword.text;
-                        String retryPassword = controllerNewPassword.text;
+                        String newPassword = controllerNewPassword.text;
+                        String retryPassword = controllerRetryPassword.text;
 
                         int checkPassword = await data.CheckPassword(
                             getUser.id as String, oldPassword);
@@ -114,16 +130,19 @@ class _EditPasswordState extends State<EditPassword> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (checkPassword == 0) {
                           var snackBar = SnackBar(
+                              duration: Duration(seconds: 1),
                               content: Text(
                                   "Nhập sai mật khẩu! Vui lòng nhập lại!"));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (newPassword == oldPassword) {
                           var snackBar = SnackBar(
+                              duration: Duration(seconds: 1),
                               content: Text(
                                   "Mật khẩu mới trùng với mật khẩu cũ. Vui lòng nhập lại!"));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (newPassword != retryPassword) {
                           var snackBar = SnackBar(
+                              duration: Duration(seconds: 1),
                               content: Text(
                                   "Mật khẩu nhập lại không trùng với mật khẩu đã nhập. Vui lòng nhập lại!"));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -132,6 +151,7 @@ class _EditPasswordState extends State<EditPassword> {
                               getUser.id as String, newPassword);
                           if (changePassword == 1) {
                             var snackBar = SnackBar(
+                                duration: Duration(seconds: 1),
                                 content: Text("Đổi mật khẩu thành công!"));
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
@@ -140,6 +160,7 @@ class _EditPasswordState extends State<EditPassword> {
                             });
                           } else {
                             var snackBar = SnackBar(
+                                duration: Duration(seconds: 1),
                                 content: Text(
                                     "Đã xảy ra lỗi! Vui lòng thử lại sau!"));
                             ScaffoldMessenger.of(context)

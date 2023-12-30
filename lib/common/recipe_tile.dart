@@ -12,7 +12,6 @@ class RecipeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //todo
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => RecipeDetailPage(data: data)));
       },

@@ -1,6 +1,4 @@
 import 'package:cooking_app/common/recipe_tile.dart';
-import 'package:cooking_app/models/recipe.dart';
-import 'package:cooking_app/models/recipe_helper.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
 import 'package:cooking_app/screens/popular_recipe_card.dart';
 import 'package:cooking_app/utils/AppColor.dart';

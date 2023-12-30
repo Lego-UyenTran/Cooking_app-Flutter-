@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       margin: EdgeInsets.only(top: 100),
                       child: Text(
-                        'Login',
+                        'Đăng nhập',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 22,
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.topLeft,
                             margin: EdgeInsets.only(bottom: 4),
                             child: Text(
-                              "Email",
+                              "Username",
                               style: TextStyle(
                                   color: Colors.grey.shade500,
                                   fontFamily: 'inter',
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                 ),
-                                hintText: "Enter your username",
+                                hintText: "Nhập username",
                                 hintStyle: TextStyle(
                                     fontSize: 14, color: Colors.grey[400]),
                               ),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                     alignment: Alignment.topLeft,
                                     margin: EdgeInsets.only(bottom: 4),
                                     child: Text(
-                                      "Password",
+                                      "Mật khẩu",
                                       style: TextStyle(
                                           color: Colors.grey.shade500,
                                           fontFamily: 'inter',
@@ -187,6 +187,23 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         var user = User(username: username, password: password);
+                        if (username == '' || password == '') {
+                          var snackBar = SnackBar(
+                            content: Text(
+                                "Vui lòng nhập đầy đủ thông tin đăng nhập!"),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        } else if (password.length < 6 ||
+                            password.length > 15) {
+                          var snackBar = SnackBar(
+                            content: Text(
+                                "Mật khẩu có độ dài tối thiểu là 6 và tối đa là 15!"),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                         int num = await data.CheckForLogin(user);
                         if (num == 1) {
                           Timer(Duration(seconds: 1), () {
@@ -207,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                         getUser = await data.getUser(user);
                       },
                       child: Text(
-                        "Login",
+                        "Đăng nhập",
                       ),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF0B5551),
@@ -219,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       margin: EdgeInsets.only(top: 6, bottom: 6),
                       child: Text(
-                        "OR",
+                        "hoặc",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade700),
@@ -245,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'inter',
                               ),
-                              text: 'Register')
+                              text: 'Đăng ký')
                         ],
                       ),
                     ),
@@ -271,7 +288,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: AppColor.primary,
                                   fontFamily: 'inter',
                                 ),
-                                text: 'Back')
+                                text: 'Trở lại')
                           ],
                         ),
                       ),

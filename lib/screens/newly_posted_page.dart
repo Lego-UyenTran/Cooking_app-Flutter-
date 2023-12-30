@@ -8,8 +8,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class NewlyPostedPage extends StatelessWidget {
-  final List<Recipe> newlyPostedRecipe = RecipeHelper.newlyPostedRecipe;
-
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipeProvider>(builder: (context, data2, _) {

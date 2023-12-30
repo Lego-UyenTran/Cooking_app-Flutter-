@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:cooking_app/common/card.dart';
 import 'package:cooking_app/common/custom_app_bar.dart';
 import 'package:cooking_app/common/recipe_tile.dart';
 import 'package:cooking_app/common/recommendation_recipe_card.dart';
 import 'package:cooking_app/common/search_bar.dart';
-import 'package:cooking_app/models/recipe.dart';
-import 'package:cooking_app/models/recipe_helper.dart';
+import 'package:cooking_app/common/varianble.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
 import 'package:cooking_app/screens/delicious_today.dart';
 import 'package:cooking_app/screens/newly_posted_page.dart';
@@ -13,19 +14,36 @@ import 'package:cooking_app/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  File _image = File(getUser.image ??
+      'D:\\Documents\\Flutter\\App\\cooking_app\\assets\\images\\thumbnail1.jpg');
+
   Widget build(BuildContext context) {
     return Consumer<RecipeProvider>(builder: (context, data2, _) {
       return Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-            title: Text(
-              "Mỗi ngày một món ăn",
-              style:
-                  TextStyle(fontFamily: 'inter', fontWeight: FontWeight.w700),
-            ),
-            showProfilePhoto: true,
-            profilePhoto: AssetImage("assets/images/thumbnail1.jpg")),
+        appBar: _image == null
+            ? CustomAppBar(
+                title: Text(
+                  "Mỗi ngày một món ăn",
+                  style: TextStyle(
+                      fontFamily: 'inter', fontWeight: FontWeight.w700),
+                ),
+                showProfilePhoto: true,
+                profilePhoto: AssetImage("assets/images/thumbnail1.jpg"))
+            : CustomAppBar(
+                title: Text(
+                  "Mỗi ngày một món ăn",
+                  style: TextStyle(
+                      fontFamily: 'inter', fontWeight: FontWeight.w700),
+                ),
+                showProfilePhoto: true,
+                profilePhoto: FileImage(_image!)),
         body: ListView(
           shrinkWrap: true,
           physics:
@@ -200,7 +218,6 @@ class HomePage extends StatelessWidget {
                     return SizedBox(height: 16);
                   },
                   itemBuilder: (context, index) {
-                    //Bai dang moi
                     return RecipeTile(
                       data: data2.listNewPosted[index],
                     );

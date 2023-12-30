@@ -298,8 +298,8 @@ class _ReviewTileState extends State<ReviewTile> {
                                                         bool num =
                                                             await recipeProvider
                                                                 .delete(review);
-                                                        await recipeProvider
-                                                            .init();
+                                                        // await recipeProvider
+                                                        //     .init();
                                                         if (num == true) {
                                                           var snackBar = SnackBar(
                                                               duration:

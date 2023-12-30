@@ -1,3 +1,4 @@
+import 'package:cooking_app/app_scroll.dart';
 import 'package:cooking_app/common/recipe_detail_page.dart';
 import 'package:cooking_app/providers/recipe_provider.dart';
 import 'package:cooking_app/providers/user_provider.dart';
@@ -20,13 +21,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RecipeProvider()),
       ],
       child: MaterialApp(
-        // title: "Bai hoc dau tien",
+        scrollBehavior: AppScrollBehavior(),
         home: WelcomPage(),
         debugShowCheckedModeBanner: false,
-        // theme: ThemeData(primarySwatch: Colors.amber),
-        // theme: ThemeData(fontFamily: Config.FontNunito),
-        // routes: {RouteName.details: (context) => const RecipeDetailPage()
-        // },
       ),
     );
   }

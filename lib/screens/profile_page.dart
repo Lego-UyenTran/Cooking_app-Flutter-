@@ -1,10 +1,21 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cooking_app/common/user_info_tile.dart';
 import 'package:cooking_app/common/varianble.dart';
 import 'package:cooking_app/icons/fire_icon.dart';
+import 'package:cooking_app/models/User.dart';
+import 'package:cooking_app/providers/recipe_provider.dart';
+import 'package:cooking_app/providers/user_provider.dart';
 import 'package:cooking_app/screens/edit_profile.dart';
 import 'package:cooking_app/screens/home_page.dart';
 import 'package:cooking_app/utils/AppColor.dart';
+import 'package:cooking_app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -13,9 +24,28 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool editMode = false;
+  File _image = File(getUser.image ??
+      'D:\\Documents\\Flutter\\App\\cooking_app\\assets\\images\\thumbnail1.jpg');
+
+  void selectImage() async {
+    var img = await pickImage(ImageSource.gallery);
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.uploadImage(img.path as String, getUser.id as String);
+    getUser = await userProvider.getUser(getUser);
+    Timer(Duration(seconds: 1), () {
+      setState(() {
+        _image = img;
+      });
+      var snackBar = SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text("Upload ảnh thành công!"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("image: " + getUser.image.toString());
     if (editMode) {
       return EditProfilePage();
     } else
@@ -24,11 +54,12 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: AppColor.primary,
           elevation: 0,
           centerTitle: true,
-          title: Text('My Profile',
+          title: Text(getUser.username as String,
               style: TextStyle(
-                  fontFamily: 'inter',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16)),
+                fontFamily: 'inter',
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              )),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () {
@@ -44,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 });
               },
               child: Text(
-                'Edit',
+                'Chỉnh sửa',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -66,30 +97,43 @@ class _ProfilePageState extends State<ProfilePage> {
               color: AppColor.primary,
               padding: EdgeInsets.symmetric(vertical: 24),
               child: GestureDetector(
-                onTap: () {
-                  //todo
-                },
+                onTap: selectImage,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      margin: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(100),
-                        // Profile Picture
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/thumbnail1.jpg'),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
+                    //add image
+                    _image != null
+                        ? Container(
+                            width: 130,
+                            height: 130,
+                            margin: EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100),
+                              // Profile Picture
+                              image: DecorationImage(
+                                  image: FileImage(_image!), fit: BoxFit.cover),
+                            ),
+                          )
+                        : Container(
+                            width: 130,
+                            height: 130,
+                            margin: EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100),
+                              // Profile Picture
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/thumbnail1.jpg'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Change Profile Picture',
+                        Text('Cập nhật ảnh',
                             style: TextStyle(
                                 fontFamily: 'inter',
                                 fontWeight: FontWeight.w600,
@@ -136,9 +180,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     margin: EdgeInsets.only(bottom: 16),
                     label: 'Thời gian tham gia',
                     // value: getUser.date as String,
-                    // value: DateFormat('dd-MM-yyyy – kk:mm')
-                    //     .format(getUser.date as DateTime),
-                    value: "",
+                    value: DateFormat('dd-MM-yyyy – kk:mm')
+                        .format(getUser.date as DateTime),
                   ),
                 ],
               ),
@@ -146,5 +189,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       );
+    // });
   }
 }

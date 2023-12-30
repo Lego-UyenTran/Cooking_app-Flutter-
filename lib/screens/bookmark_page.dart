@@ -20,62 +20,14 @@ class _BookmarkPageState extends State<BookmarkPage> {
   }
 
   List<Recipe> temp = [];
-  //       void getList() async {
-  //   temp = await recipeProvider.getListBookmark(getUser.id as String);
-  // }
-
-  // getList();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RecipeProvider>(builder: (context, data2, _) {
-      var recipeProvider = Provider.of<RecipeProvider>(context, listen: true);
-      // temp =
-      // recipeProvider.getListBookmark(getUser.id as String) as List<Recipe>;
-      // temp = recipeProvider.listBookmark2;
-      if (temp.isNotEmpty) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColor.primary,
-            elevation: 0,
-            centerTitle: true,
-            title: Text(
-              "Bài viết đã lưu",
-              style: TextStyle(
-                  fontFamily: 'inter',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
-            ),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-          body: ListView(
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                width: MediaQuery.of(context).size.width,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return RecipeTile2(data: temp[index]);
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 16);
-                    },
-                    itemCount: temp.length),
-              )
-            ],
-          ),
-        );
-      }
+    var recipeProvider = Provider.of<RecipeProvider>(context, listen: true);
+    temp = recipeProvider.getListBookmark(getUser.id as String);
 
+    // temp = recipeProvider.listBookmark2;
+    if (temp.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColor.primary,
@@ -93,7 +45,46 @@ class _BookmarkPageState extends State<BookmarkPage> {
             },
           ),
         ),
+        body: ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              width: MediaQuery.of(context).size.width,
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return RecipeTile2(data: temp[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 16);
+                  },
+                  itemCount: temp.length),
+            )
+          ],
+        ),
       );
-    });
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColor.primary,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Bài viết đã lưu",
+          style: TextStyle(
+              fontFamily: 'inter', fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
   }
 }

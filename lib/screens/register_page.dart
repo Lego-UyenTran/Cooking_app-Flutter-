@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cooking_app/common/varianble.dart';
+import 'package:cooking_app/icons/fire_icon.dart';
 import 'package:cooking_app/models/User.dart';
 import 'package:cooking_app/providers/user_provider.dart';
 import 'package:cooking_app/screens/login_page.dart';
@@ -38,13 +40,12 @@ class _RegisterPageState extends State<RegisterPage> {
       return Scaffold(
         body: Wrap(children: [
           Container(
-            // color: Colors.white,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 16),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
             child: ListView(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
@@ -60,11 +61,27 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(20))),
                 ),
+                Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        size: 22,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                )),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 40),
+                    margin: EdgeInsets.only(top: 30),
                     child: Text(
-                      'Register',
+                      'Đăng ký',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -108,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: "Enter your email",
+                              hintText: "Nhập email",
                               hintStyle: TextStyle(
                                   fontSize: 14, color: Colors.grey[400]),
                             ),
@@ -131,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(bottom: 4),
                           child: Text(
-                            "Fullname",
+                            "Họ và tên",
                             style: TextStyle(
                                 color: Colors.grey.shade500,
                                 fontFamily: 'inter',
@@ -154,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: "Enter your fullname",
+                              hintText: "Nhập họ và tên",
                               hintStyle: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
@@ -204,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: "Enter your username",
+                              hintText: "Nhập username",
                               hintStyle: TextStyle(
                                   fontSize: 14, color: Colors.grey[400]),
                             ),
@@ -227,7 +244,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(bottom: 4),
                           child: Text(
-                            "Password",
+                            "Mật khẩu",
                             style: TextStyle(
                                 color: Colors.grey.shade500,
                                 fontFamily: 'inter',
@@ -275,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(bottom: 4),
                           child: Text(
-                            "Retype Password",
+                            "Nhập lại mật khẩu",
                             style: TextStyle(
                                 color: Colors.grey.shade500,
                                 fontFamily: 'inter',
@@ -320,12 +337,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       var user = User(
-                        id: uuid.v4(),
-                        email: email,
-                        full_name: fullname,
-                        username: username,
-                        password: password,
-                      );
+                          id: uuid.v4(),
+                          email: email,
+                          full_name: fullname,
+                          username: username,
+                          password: password,
+                          date: DateTime.now());
                       bool isValid = EmailValidator.validate(email);
 
                       if (email == "" ||
@@ -340,6 +357,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         var snackBar = SnackBar(
                             content:
                                 Text("Email không hợp lệ vui lòng nhập lại!"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (password.length < 6 || password.length > 15) {
+                        var snackBar = SnackBar(
+                          content: Text(
+                              "Mật khẩu có độ dài tối thiểu là 6 và tối đa là 15!"),
+                          duration: Duration(seconds: 1),
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else if (password != password2) {
                         var snackBar = SnackBar(
@@ -363,6 +387,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         } else {
                           await data.add(user);
                           Timer(Duration(seconds: 1), () {
+                            var snackBar = SnackBar(
+                              content: Text("Đăng ký thành công!"),
+                              duration: Duration(seconds: 1),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -371,7 +401,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         }
                       }
                     },
-                    child: Text("Register"),
+                    child: Text("Đăng ký"),
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF0B5551),
                     ),
@@ -388,7 +418,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      text: 'Have an account? ',
+                      text: 'Bạn đã có tài khoản? ',
                       style: TextStyle(color: Colors.grey),
                       children: [
                         TextSpan(
@@ -397,7 +427,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               fontWeight: FontWeight.w700,
                               fontFamily: 'inter',
                             ),
-                            text: 'Login')
+                            text: 'Đăng nhập')
                       ],
                     ),
                   ),

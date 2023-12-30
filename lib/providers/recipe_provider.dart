@@ -344,13 +344,12 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Recipe>> searchBookmark(String userId, List<Recipe> temp) async {
+  List<Recipe> searchBookmark(String userId, List<Recipe> temp) {
     List<Recipe> listResult = [];
     for (int i = 0; i < temp.length; i++) {
       for (int k = 0; k < temp[i].listBookmark.length; k++) {
         if (temp[i].listBookmark[k].userId == userId) {
           listResult.add(temp[i]);
-          notifyListeners();
         }
       }
     }
@@ -358,12 +357,12 @@ class RecipeProvider extends ChangeNotifier {
     return listResult;
   }
 
-  Future<List<Recipe>> getListBookmark(String userId) async {
+  List<Recipe> getListBookmark(String userId) {
     List<Recipe> listResult = [];
-    List<Recipe> listFeature2 = await searchBookmark(userId, list);
-    List<Recipe> listRecomment2 = await searchBookmark(userId, listReview);
-    List<Recipe> listPopular2 = await searchBookmark(userId, listPopular);
-    List<Recipe> listNewPosted2 = await searchBookmark(userId, listNewPosted);
+    List<Recipe> listFeature2 = searchBookmark(userId, list);
+    List<Recipe> listRecomment2 = searchBookmark(userId, listReview);
+    List<Recipe> listPopular2 = searchBookmark(userId, listPopular);
+    List<Recipe> listNewPosted2 = searchBookmark(userId, listNewPosted);
 
     listResult = [
       ...listFeature2,
@@ -372,7 +371,6 @@ class RecipeProvider extends ChangeNotifier {
       ...listNewPosted2
     ];
     listBookmark2 = listResult;
-    notifyListeners();
     return listResult;
   }
 }

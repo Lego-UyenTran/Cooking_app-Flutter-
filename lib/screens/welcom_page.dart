@@ -53,7 +53,7 @@ class _WelcomPageState extends State<WelcomPage> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 12),
                           child: Text(
-                            "Hungry?",
+                            "Cooking app",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 36,
@@ -61,7 +61,7 @@ class _WelcomPageState extends State<WelcomPage> {
                                 fontFamily: "inter"),
                           ),
                         ),
-                        Text("Help you when you-re hungry",
+                        Text("Công thức nấu ăn cho mỗi ngày",
                             style: TextStyle(color: Colors.white))
                       ],
                     ),
@@ -75,7 +75,7 @@ class _WelcomPageState extends State<WelcomPage> {
                           width: MediaQuery.of(context).size.width,
                           height: 40,
                           child: ElevatedButton(
-                            child: Text("Get started",
+                            child: Text("Bẳt đầu",
                                 style: TextStyle(
                                     color: Color(0xFFEDE5CC),
                                     fontSize: 16,
@@ -101,7 +101,7 @@ class _WelcomPageState extends State<WelcomPage> {
                             height: 40,
                             child: OutlinedButton(
                               child: Text(
-                                "Login",
+                                "Đăng nhập",
                                 style: TextStyle(color: Color(0xFFEDE5CC)),
                               ),
                               onPressed: () {

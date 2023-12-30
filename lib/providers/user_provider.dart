@@ -104,7 +104,8 @@ class UserProvider extends ChangeNotifier {
           email: list[i].email,
           username: list[i].username,
           password: list[i].password,
-          // date: list[i].date,
+          image: list[i].image,
+          date: list[i].date,
         );
         temp = temp2;
         break;
@@ -121,13 +122,13 @@ class UserProvider extends ChangeNotifier {
     for (int i = 0; i < list.length; i++) {
       if (id == list[i].id) {
         User temp2 = User(
-          id: list[i].id,
-          full_name: list[i].full_name,
-          email: list[i].email,
-          username: list[i].username,
-          password: list[i].password,
-          // date: list[i].date,
-        );
+            id: list[i].id,
+            full_name: list[i].full_name,
+            email: list[i].email,
+            username: list[i].username,
+            password: list[i].password,
+            date: list[i].date,
+            image: list[i].image);
         temp = temp2;
         break;
       }
@@ -143,9 +144,9 @@ class UserProvider extends ChangeNotifier {
     return userStorage.write(list);
   }
 
+//update lai username tai nhung noi da cmt
   Future<void> updateForRecipe(
       List<Recipe> listR, String index, String username, String key) async {
-    // print("username: " + username);
     for (int i = 0; i < listR.length; i++) {
       for (int j = 0; j < listR[i].reviews.length; j++) {
         if (listR[i].reviews[j].userId.toString() == index) {
@@ -185,7 +186,7 @@ class UserProvider extends ChangeNotifier {
     for (int i = 0; i < list.length; i++) {
       if (list[i].id == item.id) {
         list[i] = item;
-        notifyListeners();
+        // print("img nhan vao: " + item.image.toString());
         userStorage.write(list);
         temp = 1;
         updateForRecipe(listFeatureRecipe, item.id.toString(),
@@ -198,8 +199,22 @@ class UserProvider extends ChangeNotifier {
             item.username.toString(), "popular");
       }
     }
+    notifyListeners();
 
     return temp;
+  }
+
+  Future<int> uploadImage(String url, String userId) async {
+    int num = 0;
+    for (var i in list) {
+      if (i.id == userId) {
+        i.image = url;
+        userStorage.write(list);
+        notifyListeners();
+        return 1;
+      }
+    }
+    return num;
   }
 
   Future<bool> delete(User item) async {
